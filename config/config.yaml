@@ -7,12 +7,12 @@ artifacts:
   CHECKPOINT_DIR: checkpoints
   BASE_LOG_DIR: base_model_dir
   TENSORBOARD_ROOT_LOG_DIR: tensorboard_log_dir
-  CALLBACKS_DIR: callbacks_dir
+  CALLBACKS_DIR: callbacks
 
-  source_download_paths:
-    - ../outside_data/dog
-    - ../outside_data/cat
+source_download_paths:
+  - ../outside_data/dog
+  - ../outside_data/cat
 
-  local_data_path:
-    - data/dog
-    - data/cat
+local_data_path:
+  - data/dog
+  - data/cat
