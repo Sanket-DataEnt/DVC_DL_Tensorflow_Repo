@@ -8,8 +8,9 @@ import logging
 
 logging_str = "[%(asctime)s: %(levelname)s: %(module)s]: %(message)s"
 log_dir = "logs"
-create_directory([log_dir])
-logging.basicConfig(filename=os.path.join(log_dir, "running_logs.log"), level=logging.INFO, format=logging_str, filemode='a')
+os.makedirs(log_dir, exist_ok=True)
+logging.basicConfig(filename=os.path.join(log_dir, 'running_logs.log'), level=logging.INFO, format=logging_str,
+                    filemode="a")
 
 def copy_file(source_download_dir, local_data_dir):
     list_of_files = os.listdir(source_download_dir)
@@ -38,7 +39,7 @@ if __name__ == '__main__':
     parsed_args = args.parse_args()
 
     try:
-        logging.info("stage one started")
+        logging.info(">>>>>>>>>stage one started")
         get_data(config_path=parsed_args.config)
         logging.info("stage one completed! all the data are saved in local")
     except Exception as e:
