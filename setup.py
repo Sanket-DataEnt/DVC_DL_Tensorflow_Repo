@@ -23,6 +23,6 @@ setup(
             "pandas",
             "tqdm",
             "PyYAML",
-            "boto3",
+            "boto3"
     ]
 )
