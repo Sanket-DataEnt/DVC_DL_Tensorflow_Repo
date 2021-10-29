@@ -16,7 +16,7 @@ def train_model(config_path, params_path):
     config = read_yaml(config_path)
     params = read_yaml(params_path)
 
-    artifacts = config['artifacts']
+    artifacts = config["artifacts"]
     artifacts_dir = artifacts["ARTIFACTS_DIR"]
 
     train_model_dir_path = os.path.join(artifacts_dir, artifacts["TRAINED_MODEL_DIR"])
@@ -27,14 +27,26 @@ def train_model(config_path, params_path):
 
     model = load_full_model(untrained_full_model_path)
 
-    callback_dir_path = os.path.join(artifacts_dir, artifacts["CALLBACKS_DIR"])
+    callback_dir_path  = os.path.join(artifacts_dir, artifacts["CALLBACKS_DIR"])
     callbacks = get_callbacks(callback_dir_path)
 
     train_generator, valid_generator = train_valid_generator(
-        data_dir=artifacts["DATA_DIR"], 
-        IMAGE_SIZE=(params["IMAGE_SIZE"][:-1]),
+        data_dir=artifacts["DATA_DIR"],
+        IMAGE_SIZE=tuple(params["IMAGE_SIZE"][:-1]),
         BATCH_SIZE=params["BATCH_SIZE"],
         do_data_augmentation=params["AUGMENTATION"]
+    )
+
+    steps_per_epoch = train_generator.samples // train_generator.batch_size
+    validation_steps = valid_generator.samples // valid_generator.batch_size
+
+    model.fit(
+        train_generator,
+        validation_data=valid_generator,
+        epochs=params["EPOCHS"], 
+        steps_per_epoch=steps_per_epoch, 
+        validation_steps=validation_steps,
+        callbacks=callbacks
     )
     
 
